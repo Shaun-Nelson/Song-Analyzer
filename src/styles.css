@@ -11,6 +11,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* CONTAINERS */
 
 .flex-container {
@@ -47,6 +51,14 @@ body {
   margin-right:0.5em;
 }
 
+.btn-add-track {
+  display: inline-block;
+  padding:0.2em;
+  border-radius: 100%;
+  margin-left: 2em;
+  background-color: white;
+  border: 1px solid black;
+}
 /* SEARCHBAR */
 
 .search-label {
@@ -70,6 +82,20 @@ body {
   border: 3px solid rgb(48, 111, 219)
 }
 
+/* FIRST SECTION */
+
+.track-info-header {
+  font-weight: normal;
+  font-size: 24px;
+  margin-top: 1em;
+}
+
+.track-info-list {
+  padding-left: 0.2em;
+  padding-top: 1.3em;
+  font-size: 16px;
+}
+
 @media screen and (max-width:768px) {
   .searchbar {
     width: 250px;
@@ -77,7 +103,7 @@ body {
   }
 
   .btn-submit {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .search-label {

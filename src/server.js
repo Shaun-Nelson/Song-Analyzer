@@ -34,54 +34,27 @@ app.post("/", (req, res) => {
     }
   );
 
-  let apiTrackData = {};
-  setTimeout(() =>
-    spotifyApi.searchTracks(req.body.track).then(
-      (data) =>
-        data.body.tracks.items.forEach(
-          (track) => {
-            apiTrackData[title] = track.name;
-            apiTrackData[artists] = track.artists;
-            console.log(JSON.stringify(apiTrackData));
-            res.send(JSON.stringify(apiTrackData));
-            res.status(200);
-
-            // apiTrackData[track] = {
-            //   name: track.name,
-            //   artists: track.artists,
-            //   duration: track.duration_ms,
-            //   link: track.href,
-            //   id: track.id,
-            // preview: preview_url,
-          },
-          (err) => console.log(err)
-        ),
-      5000
-    )
+  let apiTrackData = [];
+  setTimeout(
+    () =>
+      spotifyApi.searchTracks(req.body.track).then(
+        (data) => {
+          let tracks = data.body.tracks.items;
+          tracks.forEach((track) => {
+            let trackObject = {};
+            trackObject["artists"] = track.artists;
+            trackObject["href"] = track.href;
+            trackObject["id"] = track.id;
+            trackObject["title"] = track.name;
+            trackObject["preview"] = track.preview_url;
+            apiTrackData.push(trackObject);
+          });
+          res.send(JSON.stringify(apiTrackData));
+        },
+        (err) => console.log(err)
+      ),
+    1000
   );
 });
-
-// setTimeout(
-//   () =>
-//     spotifyApi.getAudioFeaturesForTrack(req.body.track).then(
-//       function (data) {
-//         let apiData = {
-//           danceability: data.body.danceability,
-//           energy: data.body.energy,
-//           key: data.body.key,
-//           tempo: data.body.tempo,
-//         };
-//         console.log(data.body);
-//         console.log("tempo ", Math.floor(Math.round(apiData.tempo)));
-//         res.send(apiData.json());
-//         res.status(200);
-//       },
-//       function (err) {
-//         console.log(err);
-//       }
-//     ),
-//   1000
-// );
-
 let port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`listening on port ${port}`));

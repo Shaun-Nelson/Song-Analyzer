@@ -66,7 +66,7 @@ const Searchbar = () => {
           <input className='btn-submit' value='Search' type='submit'></input>
         </form>
       </div>
-      {/* {search && <SearchResults results={results} />} */}
+      {search && <SearchResults results={results} />}
     </>
   );
 };
