@@ -78,6 +78,22 @@ ul {
   background-color:rgb(48, 111, 219);
 }
 
+.btn-play {
+    display: inline-block;
+      padding: 0.2em;
+      border-radius: 25%;
+      background-color: white;
+      border: 1px solid black;
+}
+
+.btn-play:hover {
+  border: 1px solid rgb(48, 111, 219);
+}
+
+.btn-play:active {
+  background-color: rgb(48, 111, 219);
+}
+
 /* SEARCHBAR */
 
 .search-label {

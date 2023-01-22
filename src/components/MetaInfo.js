@@ -1,5 +1,9 @@
 import React from "react";
 
+// TODO Create Table for info
+//      fetch data from backend and display
+//      delete row from table with button
+//      sort ascending/descending per param
 const MetaInfo = (props) => {
   const ids = props.addedTracks.map((track) => {
     return (

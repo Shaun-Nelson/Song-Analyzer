@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import MetaInfo from "./MetaInfo";
 
-//TODO get play/pause icon
+//TODO show MetaInfo
+//     play one song at a time
 //     make collapseable
 //     show all artists
 const SearchResults = (props) => {
@@ -38,6 +39,8 @@ const SearchResults = (props) => {
               if (!addedTracks.includes(track)) {
                 setAddedTracks([...addedTracks, track]);
               }
+              console.log(addedTracks);
+              console.log("SHOW ", showMetaInfo);
             }}
           >
             +
@@ -50,10 +53,14 @@ const SearchResults = (props) => {
   return (
     <>
       <section>
-        <h2 className='track-results-header'>Preview and Add Tracks</h2>
-        <ul className='track-results-list'>{titles}</ul>
+        <div className='flex-container-tracks'>
+          <div className='flex-container-column'>
+            <h2 className='track-results-header'>Preview and Add Tracks</h2>
+            <ul className='track-results-list'>{titles}</ul>
+          </div>
+          {showMetaInfo && <MetaInfo addedTracks={addedTracks} />}
+        </div>
       </section>
-      {showMetaInfo && <MetaInfo addedTracks={addedTracks} />}
     </>
   );
 };
