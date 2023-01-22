@@ -3,7 +3,7 @@ import SearchResults from "./SearchResults";
 
 const Searchbar = () => {
   const [search, setSearch] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(null);
 
   return (
     <>
@@ -13,7 +13,7 @@ const Searchbar = () => {
           onSubmit={async (e) => {
             e.preventDefault();
             if (search) {
-              await fetch("/", {
+              await fetch("/search", {
                 method: "POST",
                 headers: {
                   "Content-type": "application/json",
@@ -29,7 +29,7 @@ const Searchbar = () => {
                 .then((res) => res.json())
                 .then((data) => {
                   setResults(data);
-                  console.log(data);
+                  setSearch("");
                 });
             }
           }}
@@ -66,7 +66,7 @@ const Searchbar = () => {
           <input className='btn-submit' value='Search' type='submit'></input>
         </form>
       </div>
-      {search && <SearchResults results={results} />}
+      {results && <SearchResults results={results} />}
     </>
   );
 };

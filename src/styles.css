@@ -1,3 +1,5 @@
+/* TODO: dark mode */
+
 * {
     margin: 0;
     padding: 0;
@@ -15,6 +17,10 @@ a {
   text-decoration: none;
 }
 
+ul {
+  list-style-type: none;
+}
+
 /* CONTAINERS */
 
 .flex-container {
@@ -27,6 +33,10 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.flex-container-tracks {
+  display: flex;
 }
 
 /* BUTTONS */
@@ -59,6 +69,15 @@ a {
   background-color: white;
   border: 1px solid black;
 }
+
+.btn-add-track:hover {
+  border: 1px solid rgb(48, 111, 219);
+}
+
+.btn-add-track:active {
+  background-color:rgb(48, 111, 219);
+}
+
 /* SEARCHBAR */
 
 .search-label {
@@ -76,24 +95,41 @@ a {
 }
 
 .searchbar:hover {
-  border: 3px solid rgb(48, 111, 219)
+  border: 3px solid rgb(48, 111, 219);
 }
 .searchbar:active{
-  border: 3px solid rgb(48, 111, 219)
+  border: 1px solid rgb(48, 111, 219);
 }
 
 /* FIRST SECTION */
 
-.track-info-header {
+.track-results-header {
   font-weight: normal;
   font-size: 24px;
   margin-top: 1em;
+  padding-left: 0.2em;
 }
 
-.track-info-list {
+.track-results-list {
   padding-left: 0.2em;
   padding-top: 1.3em;
   font-size: 16px;
+}
+
+/* SECOND SECTION */
+
+.meta-info-header {
+    font-weight: normal;
+      font-size: 24px;
+      margin-top: 1em;
+      margin-left: 3em;
+      padding-left: 0.2em;
+}
+
+.meta-info-list {
+    margin-left: 3em;
+      padding-top: 1.3em;
+      font-size: 16px;
 }
 
 @media screen and (max-width:768px) {

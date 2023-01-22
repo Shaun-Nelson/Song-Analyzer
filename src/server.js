@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 app.get("/", (req, res) => res.send("GET received"));
 
-app.post("/", (req, res) => {
+app.post("/search", (req, res) => {
   //Retrieve an access token.
   spotifyApi.clientCredentialsGrant().then(
     function (data) {
@@ -53,8 +53,9 @@ app.post("/", (req, res) => {
         },
         (err) => console.log(err)
       ),
-    1000
+    100
   );
 });
+
 let port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`listening on port ${port}`));
