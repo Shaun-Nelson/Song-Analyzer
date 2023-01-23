@@ -80,7 +80,7 @@ app.post("/analysis", (req, res) => {
           trackAnalysisObject["danceability"] = data.body.danceability;
           trackAnalysisObject["energy"] = data.body.energy;
           trackAnalysisObject["key"] = data.body.key;
-          trackAnalysisObject["bpm"] = data.body.bpm;
+          trackAnalysisObject["bpm"] = data.body.tempo;
           trackAnalysisObject["duration_ms"] = data.body.duration_ms;
 
           res.send(JSON.stringify(trackAnalysisObject));

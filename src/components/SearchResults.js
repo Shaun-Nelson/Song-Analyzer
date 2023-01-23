@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import MetaInfo from "./MetaInfo";
-import Track from "./Track";
 
-//TODO play one song at a time
+//TODO
 //     make collapseable
 //     show all artists
 const SearchResults = (props) => {
@@ -11,6 +10,7 @@ const SearchResults = (props) => {
 
   const titles = props.results.map((track) => {
     const audio = new Audio(track.preview);
+
     return (
       <>
         <li key={track.id}>
@@ -34,11 +34,28 @@ const SearchResults = (props) => {
 
             <button
               className='btn-add-track'
-              onClick={() => {
+              onClick={async () => {
                 setShowMetaInfo(true);
                 if (!addedTracks.includes(track)) {
                   setAddedTracks([...addedTracks, track]);
                 }
+                // await fetch("/analysis", {
+                //   method: "POST",
+                //   headers: {
+                //     "Content-type": "application/json",
+                //     "Access-Control-Allow-Origin": "http://localhost:3000",
+                //     "Access-Control-Allow-Credentials": "true",
+                //     "Access-Control-Allow-Methods": "POST",
+                //     "Access-Control-Allow-Headers":
+                //       "Content-Type, Authorization",
+                //   },
+                //   body: JSON.stringify({ track: track.id }),
+                // })
+                //   .then((res) => res.json())
+                //   .then((data) => {
+                //     setResults(data);
+                //     console.log(results);
+                //   });
               }}
             >
               +
