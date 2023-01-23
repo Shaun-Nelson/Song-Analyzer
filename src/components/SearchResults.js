@@ -3,25 +3,27 @@ import MetaInfo from "./MetaInfo";
 
 //TODO
 //     make collapseable
-//     show all artists
 const SearchResults = (props) => {
-  const [showMetaInfo, setShowMetaInfo] = useState(false);
   const [addedTracks, setAddedTracks] = useState([]);
+  const [showResults, setShowResults] = useState(true);
 
   const titles = props.results.map((track) => {
     const audio = new Audio(track.preview);
 
     return (
-      <>
+      <React.Fragment key={track.id}>
         <li key={track.id}>
           <div className='flex-container-tracks'>
-            <p>
-              {`${track.artists[0].name} - ${
-                track.title.length > 30
-                  ? track.title.slice(0, 29) + "..."
-                  : track.title
-              }`}
-            </p>
+            <span>
+              {track.artists.length > 1
+                ? `${track.artists[0].name}  ft... - `
+                : `${track.artists[0].name}  - `}
+            </span>
+            <span>
+              {track.title.length > 30
+                ? track.title.slice(0, 29) + "..."
+                : track.title}
+            </span>
 
             <button
               className='btn-play'
@@ -34,35 +36,17 @@ const SearchResults = (props) => {
 
             <button
               className='btn-add-track'
-              onClick={async () => {
-                setShowMetaInfo(true);
+              onClick={() => {
                 if (!addedTracks.includes(track)) {
                   setAddedTracks([...addedTracks, track]);
                 }
-                // await fetch("/analysis", {
-                //   method: "POST",
-                //   headers: {
-                //     "Content-type": "application/json",
-                //     "Access-Control-Allow-Origin": "http://localhost:3000",
-                //     "Access-Control-Allow-Credentials": "true",
-                //     "Access-Control-Allow-Methods": "POST",
-                //     "Access-Control-Allow-Headers":
-                //       "Content-Type, Authorization",
-                //   },
-                //   body: JSON.stringify({ track: track.id }),
-                // })
-                //   .then((res) => res.json())
-                //   .then((data) => {
-                //     setResults(data);
-                //     console.log(results);
-                //   });
               }}
             >
               +
             </button>
           </div>
         </li>
-      </>
+      </React.Fragment>
     );
   });
 
@@ -70,10 +54,20 @@ const SearchResults = (props) => {
     <>
       <div className='flex-container-tracks'>
         <section>
-          <h2 className='track-results-header'>Preview and Add Tracks</h2>
-          <ul className='track-results-list'>{titles}</ul>
+          <button
+            className='btn-collapse'
+            onClick={() => setShowResults(!showResults)}
+          >
+            &#8644;
+          </button>
+          {showResults && (
+            <>
+              <h2 className='track-results-header'>Preview and Add Tracks</h2>
+              <ul className='track-results-list'>{titles}</ul>
+            </>
+          )}
         </section>
-        {showMetaInfo && <MetaInfo addedTracks={addedTracks} />}
+        <MetaInfo addedTracks={addedTracks} />
       </div>
     </>
   );
