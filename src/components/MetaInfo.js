@@ -1,18 +1,13 @@
 import React from "react";
+import Track from "./Track";
 
-// TODO Create Table for info
-//      fetch data from backend and display
-//      delete row from table with button
-//      sort ascending/descending per param
 const MetaInfo = (props) => {
   const ids = props.addedTracks.map((track) => {
     return (
       <li key={track.id} id={track.id}>
-        {`${track.artists[0].name} - ${
-          track.title.length > 40
-            ? track.title.slice(0, 19) + "..."
-            : track.title
-        }`}
+        {props.addedTracks.forEach((track) => (
+          <Track id />
+        ))}
         <button
           className='btn-delete-track'
           onClick={() => {
@@ -24,6 +19,11 @@ const MetaInfo = (props) => {
         >
           -
         </button>
+        {`${track.artists[0].name} - ${
+          track.title.length > 30
+            ? track.title.slice(0, 29) + "..."
+            : track.title
+        }`}
       </li>
     );
   });
