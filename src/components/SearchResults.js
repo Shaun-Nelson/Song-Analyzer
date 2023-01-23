@@ -66,8 +66,8 @@ const SearchResults = (props) => {
               <ul className='track-results-list'>{titles}</ul>
             </>
           )}
+          <MetaInfo addedTracks={addedTracks} />
         </section>
-        <MetaInfo addedTracks={addedTracks} />
       </div>
     </>
   );
