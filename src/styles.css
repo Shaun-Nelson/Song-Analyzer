@@ -21,6 +21,10 @@ ul {
   list-style-type: none;
 }
 
+section {
+  display: inline;
+}
+
 /* CONTAINERS */
 
 .flex-container {
@@ -36,7 +40,8 @@ ul {
 }
 
 .flex-container-tracks {
-  display: flex;
+  display: inline-flex;
+  justify-content: space-between;
 }
 
 /* BUTTONS */
