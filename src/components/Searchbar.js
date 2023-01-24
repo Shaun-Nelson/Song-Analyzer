@@ -26,6 +26,7 @@ const Searchbar = () => {
             }
 
             if (search) {
+              console.log("searching from react");
               await fetch("/search", {
                 method: "POST",
                 headers: {

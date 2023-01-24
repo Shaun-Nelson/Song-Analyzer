@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require("path");
+// const path = require("path");
 const SpotifyWebApi = require("spotify-web-api-node");
 
 const client_id = "076df578e4f54f789d789c0981db4952";
@@ -16,13 +16,13 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, "./client/build")));
+// app.use(express.static(path.join(__dirname, "./client/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"), (err) =>
-    res.status(500).send(err)
-  );
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./client/build/index.html"), (err) =>
+//     res.status(500).send(err)
+//   );
+// });
 
 app.post("/search", (req, res) => {
   //Retrieve an access token.
@@ -44,7 +44,7 @@ app.post("/search", (req, res) => {
     () =>
       spotifyApi.searchTracks(req.body.track).then(
         (data) => {
-          console.log("searching...");
+          console.log("searching from express");
           let tracks = data.body.tracks.items;
           tracks.forEach((track) => {
             let trackObject = {};
