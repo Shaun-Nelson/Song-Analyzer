@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SearchResults from "./SearchResults";
 
-//TODO search by genre
+//TODO get next 20 results w/ btn
 
 const Searchbar = () => {
   const [search, setSearch] = useState("");
@@ -14,6 +14,17 @@ const Searchbar = () => {
           className='search'
           onSubmit={async (e) => {
             e.preventDefault();
+
+            let payload;
+
+            if (document.getElementById("btn-track").checked) {
+              payload = JSON.stringify({ track: search });
+            } else if (document.getElementById("btn-artist").checked) {
+              payload = JSON.stringify({ track: "artist:" + search });
+            } else if (document.getElementById("btn-genre").checked) {
+              payload = JSON.stringify({ track: "genre:" + search });
+            }
+
             if (search) {
               await fetch("/search", {
                 method: "POST",
@@ -24,9 +35,7 @@ const Searchbar = () => {
                   "Access-Control-Allow-Methods": "POST",
                   "Access-Control-Allow-Headers": "Content-Type, Authorization",
                 },
-                body: document.getElementById("btn-track").checked
-                  ? JSON.stringify({ track: search })
-                  : JSON.stringify({ track: "artist:" + search }),
+                body: payload,
               })
                 .then((res) => res.json())
                 .then((data) => {
@@ -58,12 +67,22 @@ const Searchbar = () => {
             By Artist
           </label>
           <input
+            className='btn-search-radio'
+            type='radio'
+            name='search'
+            id='btn-genre'
+            value='By Genre'
+          ></input>
+          <label htmlFor='btn-genre' className='search-label'>
+            By Genre
+          </label>
+          <input
             className='searchbar'
             id='searchbar'
             type='text'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder='Search by Track or Artist.'
+            placeholder='Search by Track, Artist, or Genre.'
           ></input>
           <input className='btn-submit' value='Search' type='submit'></input>
         </form>

@@ -27,8 +27,14 @@ section {
 
 table {
   table-layout: fixed;
-  width: 75%;
+  width: 55%;
+  margin-left: 3em;
 }
+
+td {
+  font-weight: normal;
+}
+
 /* CONTAINERS */
 
 .flex-container {
@@ -143,6 +149,22 @@ table {
   background-color: rgb(48, 111, 219);
 }
 
+.btn-sort {
+  display: inline-block;
+  padding: 0.2em;
+  border-radius: 25%;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.btn-sort:hover {
+  border: 1px solid rgb(48, 111, 219);
+}
+
+.btn-sort:active {
+  background-color: rgb(48, 111, 219);
+}
+
 /* SEARCHBAR */
 
 .search-label {
@@ -153,7 +175,7 @@ table {
   margin-top: 1em;
   padding:0.2em;
   font-size: 32px;
-  width: 400px;
+  width: 500px;
   border:1px solid rgba(0, 0, 0, 0.4);
   border-radius: 10px 0px 0px 10px;
   background-color: rgba(255, 255, 255, 0.4);
@@ -192,10 +214,11 @@ table {
     font-size: 24px;
     margin-top: 1em;
     margin-left: 3em;
+    margin-bottom: 1em;
 }
 
 .meta-info-list {
-    margin-left: 1.5em;
+    margin-left: 2em;
     padding-top: 1.3em;
     font-size: 16px;
 }

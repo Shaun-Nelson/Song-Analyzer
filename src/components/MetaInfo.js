@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Track from "./Track";
 
+//TODO get track data into one table
+
 const MetaInfo = (props) => {
   const [showMetaInfo, setShowMetaInfo] = useState(false);
   const [showInfo, setShowInfo] = useState(true);
@@ -20,7 +22,6 @@ const MetaInfo = (props) => {
         : setShowMetaInfo(false),
     [props.addedTracks]
   );
-
   return (
     <>
       {showMetaInfo && (
@@ -35,6 +36,23 @@ const MetaInfo = (props) => {
             {showInfo && (
               <>
                 <h2 className='meta-info-header'>Meta Info</h2>
+                <table className='table'>
+                  <thead>
+                    {/* <button className='btn-sort' onClick={() => tracks.sort()}>
+                      Sort
+                    </button> */}
+                    <tr>
+                      <th></th>
+                      <th>{"Artist(s)"}</th>
+                      <th>Title</th>
+                      <th>Duration</th>
+                      <th>BPM</th>
+                      <th>Key</th>
+                      <th>Energy</th>
+                      <th>Danceability</th>
+                    </tr>
+                  </thead>
+                </table>
                 <ul className='meta-info-list'>{tracks}</ul>
               </>
             )}

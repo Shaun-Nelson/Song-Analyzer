@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import MetaInfo from "./MetaInfo";
 
-//TODO
-//     make collapseable
+//TODO one audio at a time
+//     re-add song after delete
 const SearchResults = (props) => {
   const [addedTracks, setAddedTracks] = useState([]);
   const [showResults, setShowResults] = useState(true);
