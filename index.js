@@ -58,7 +58,7 @@ app.post("/search", (req, res) => {
         },
         (err) => console.log(err)
       ),
-    100
+    5000
   );
 });
 
@@ -92,7 +92,7 @@ app.post("/analysis", (req, res) => {
         },
         (err) => console.log(err)
       ),
-    100
+    5000
   );
 });
 
