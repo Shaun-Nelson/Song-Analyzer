@@ -58,7 +58,7 @@ app.post("/search", (req, res) => {
         },
         (err) => console.log(err)
       ),
-    100
+    10000
   );
 });
 
