@@ -13,37 +13,36 @@ const SearchResults = (props) => {
     return (
       <React.Fragment key={track.id}>
         <li key={track.id}>
-          <div className='flex-container-tracks'>
-            <span>
+          <div className='flex-container-tracks-sb'>
+            <span className='artist-and-title'>
               {track.artists.length > 1
                 ? `${track.artists[0].name}  ft... - `
                 : `${track.artists[0].name}  - `}
-            </span>
-            <span>
               {track.title.length > 30
                 ? track.title.slice(0, 29) + "..."
                 : track.title}
             </span>
+            <div>
+              <button
+                className='btn-play'
+                onClick={() => {
+                  audio.paused ? audio.play() : audio.pause();
+                }}
+              >
+                {">||"}
+              </button>
 
-            <button
-              className='btn-play'
-              onClick={() => {
-                audio.paused ? audio.play() : audio.pause();
-              }}
-            >
-              {">||"}
-            </button>
-
-            <button
-              className='btn-add-track'
-              onClick={() => {
-                if (!addedTracks.includes(track)) {
-                  setAddedTracks([...addedTracks, track]);
-                }
-              }}
-            >
-              +
-            </button>
+              <button
+                className='btn-add-track'
+                onClick={() => {
+                  if (!addedTracks.includes(track)) {
+                    setAddedTracks([...addedTracks, track]);
+                  }
+                }}
+              >
+                +
+              </button>
+            </div>
           </div>
         </li>
       </React.Fragment>
@@ -53,7 +52,7 @@ const SearchResults = (props) => {
   return (
     <>
       <div className='flex-container-tracks'>
-        <section>
+        <section className='results-section'>
           <button
             className='btn-collapse'
             onClick={() => setShowResults(!showResults)}
@@ -66,8 +65,9 @@ const SearchResults = (props) => {
               <ul className='track-results-list'>{titles}</ul>
             </>
           )}
-          <MetaInfo addedTracks={addedTracks} />
+          {window.innerWidth <= 768 && <MetaInfo addedTracks={addedTracks} />}
         </section>
+        {window.innerWidth >= 768 && <MetaInfo addedTracks={addedTracks} />}
       </div>
     </>
   );

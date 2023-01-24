@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import SearchResults from "./SearchResults";
 
+//TODO search by genre
+
 const Searchbar = () => {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState(null);
