@@ -44,6 +44,7 @@ app.post("/search", (req, res) => {
     () =>
       spotifyApi.searchTracks(req.body.track).then(
         (data) => {
+          console.log("searching...");
           let tracks = data.body.tracks.items;
           tracks.forEach((track) => {
             let trackObject = {};
