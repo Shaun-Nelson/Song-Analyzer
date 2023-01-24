@@ -18,8 +18,8 @@ const SearchResults = (props) => {
               {track.artists.length > 1
                 ? `${track.artists[0].name}  ft... - `
                 : `${track.artists[0].name}  - `}
-              {track.title.length > 30
-                ? track.title.slice(0, 29) + "..."
+              {track.title.length > 20
+                ? track.title.slice(0, 19) + "..."
                 : track.title}
             </span>
             <div>
