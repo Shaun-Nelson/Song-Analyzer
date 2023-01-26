@@ -4,12 +4,13 @@ const path = require("path");
 const SpotifyWebApi = require("spotify-web-api-node");
 require("dotenv").config();
 
+//TODO ADD ENV VARS
 const client_id = "076df578e4f54f789d789c0981db4952";
 const client_secret = "55d1b69ca654403ca5c8aa5083d3cd2f";
 
 let spotifyApi = new SpotifyWebApi({
-  clientId: client_id,
-  clientSecret: client_secret,
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
 });
 
 const app = express();
@@ -17,10 +18,10 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, "./client/build")));
+app.use(express.static(path.join(__dirname, "./build")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"), (err) =>
+  res.sendFile(path.join(__dirname, "./build/index.html"), (err) =>
     res.status(500).send(err)
   );
 });
