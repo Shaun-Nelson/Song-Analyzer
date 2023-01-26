@@ -3,10 +3,6 @@ import React, { useState, useEffect } from "react";
 const Track = (props) => {
   const [apiData, setApiData] = useState("");
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   const getData = async () => {
     await fetch("/analysis", {
       method: "POST",
@@ -24,6 +20,10 @@ const Track = (props) => {
         setApiData(data);
       });
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const keyConverter = {
     0: "C",

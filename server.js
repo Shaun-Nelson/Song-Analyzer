@@ -4,10 +4,6 @@ const path = require("path");
 const SpotifyWebApi = require("spotify-web-api-node");
 require("dotenv").config();
 
-//TODO ADD ENV VARS
-const client_id = "076df578e4f54f789d789c0981db4952";
-const client_secret = "55d1b69ca654403ca5c8aa5083d3cd2f";
-
 let spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
