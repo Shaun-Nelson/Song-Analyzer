@@ -4,9 +4,12 @@ const path = require("path");
 const SpotifyWebApi = require("spotify-web-api-node");
 require("dotenv").config();
 
+const client_id = process.env.CLIENT_ID;
+const client_secret = process.env.CLIENT_SECRET;
+
 let spotifyApi = new SpotifyWebApi({
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
+  clientId: client_id,
+  clientSecret: client_secret,
 });
 
 const app = express();
