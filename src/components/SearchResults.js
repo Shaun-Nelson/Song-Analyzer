@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MetaInfo from "./MetaInfo";
 import BottomNav from "./BottomNav";
 
@@ -6,11 +6,9 @@ const SearchResults = ({ results, setResults }) => {
   const [addedTracks, setAddedTracks] = useState([]);
   const [showResults, setShowResults] = useState(true);
   const [showMetaInfo, setShowMetaInfo] = useState(false);
-  const [nextResults, setNextResults] = useState(results[0].next);
+  const [next, setNext] = useState(results[0].next);
 
   let audio = new Audio();
-
-  let portrait = window.matchMedia("(orientation: portrait)");
 
   const deleteTrack = (id) => {
     setAddedTracks(addedTracks.filter((track) => track.id !== id));
@@ -27,7 +25,7 @@ const SearchResults = ({ results, setResults }) => {
   };
 
   const getNext = async () => {
-    if (nextResults) {
+    if (next) {
       await fetch("/search", {
         method: "POST",
         headers: {
@@ -37,12 +35,14 @@ const SearchResults = ({ results, setResults }) => {
           "Access-Control-Allow-Methods": "POST",
           "Access-Control-Allow-Headers": "Content-Type, Authorization",
         },
-        body: JSON.stringify({ track: nextResults }),
+        body: JSON.stringify({ track: next }),
       })
         .then((res) => res.json())
         .then((data) => {
+          console.log(next);
+          console.log(data);
           setResults(data);
-          setNextResults(data[0].next);
+          setNext(data[0].next);
         });
     }
   };

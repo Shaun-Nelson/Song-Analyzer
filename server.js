@@ -45,19 +45,21 @@ app.post("/search", (req, res) => {
     () =>
       spotifyApi.searchTracks(req.body.track).then(
         (data) => {
-          let tracks = data.body.tracks.items;
-          let next = data.body.tracks.next;
-          tracks.forEach((track) => {
-            let trackObject = {};
-            trackObject["artists"] = track.artists;
-            trackObject["href"] = track.href;
-            trackObject["id"] = track.id;
-            trackObject["title"] = track.name;
-            trackObject["preview"] = track.preview_url;
-            trackObject["next"] = next;
-            apiTrackData.push(trackObject);
-          });
-          res.send(JSON.stringify(apiTrackData));
+          if (data.body.tracks.items.length !== 0) {
+            let tracks = data.body.tracks.items;
+            let next = data.body.tracks.next ? data.body.tracks.next : "";
+            tracks.forEach((track) => {
+              let trackObject = {};
+              trackObject["artists"] = track.artists;
+              trackObject["href"] = track.href;
+              trackObject["id"] = track.id;
+              trackObject["title"] = track.name;
+              trackObject["preview"] = track.preview_url;
+              trackObject["next"] = next;
+              apiTrackData.push(trackObject);
+            });
+            res.send(JSON.stringify(apiTrackData));
+          }
         },
         (err) => console.log(err)
       ),
@@ -97,24 +99,6 @@ app.post("/analysis", (req, res) => {
       ),
     200
   );
-});
-
-app.post("/next", async (req, res) => {
-  //Retrieve an access token.
-  spotifyApi.clientCredentialsGrant().then(
-    function (data) {
-      console.log("The access token expires in " + data.body["expires_in"]);
-      console.log("The access token is " + data.body["access_token"]);
-
-      // Save the access token so that it's used in future calls
-      spotifyApi.setAccessToken(data.body["access_token"]);
-    },
-    function (err) {
-      console.log("Something went wrong when retrieving an access token", err);
-    }
-  );
-
-  spotifyApi.searchTracks(req.body.next).then((data) => console.log(data));
 });
 
 let port = process.env.PORT || 4000;
