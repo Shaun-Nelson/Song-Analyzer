@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import MetaInfo from "./MetaInfo";
+import BottomNav from "./BottomNav";
 
 const SearchResults = ({ results }) => {
   const [addedTracks, setAddedTracks] = useState([]);
   const [showResults, setShowResults] = useState(true);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  let portrait = window.matchMedia("(orientation: portrait)");
-
-  portrait.addEventListener("change", (e) => {
-    setWindowWidth(window.innerWidth);
-  });
+  const [showMetaInfo, setShowMetaInfo] = useState(false);
 
   let audio = new Audio();
 
+  let portrait = window.matchMedia("(orientation: portrait)");
+
   const deleteTrack = (id) => {
     setAddedTracks(addedTracks.filter((track) => track.id !== id));
+  };
+
+  const goToSearch = () => {
+    setShowResults(true);
+    setShowMetaInfo(false);
+  };
+
+  const goToData = () => {
+    setShowResults(false);
+    setShowMetaInfo(true);
   };
 
   const titles = results.map((track) => {
@@ -23,14 +30,23 @@ const SearchResults = ({ results }) => {
       <React.Fragment key={track.id}>
         <li key={track.id}>
           <div className='flex-container-tracks-sb'>
-            <span className='artist-and-title'>
-              {track.artists.length > 1
-                ? `${track.artists[0].name}  ft... - `
-                : `${track.artists[0].name}  - `}
-              {track.title.length > 20
-                ? track.title.slice(0, 19) + "..."
-                : track.title}
-            </span>
+            {window.innerHeight > window.innerWidth ? (
+              <span className='artist-and-title'>
+                {track.artists.length > 1
+                  ? `${track.artists[0].name}  ft... - `
+                  : `${track.artists[0].name}  - `}
+                {track.title.length > 20
+                  ? track.title.slice(0, 19) + "..."
+                  : track.title}
+              </span>
+            ) : (
+              <span className='artist-and-title'>
+                {track.artists.length > 1
+                  ? `${track.artists[0].name}  ft... - `
+                  : `${track.artists[0].name}  - `}
+                {track.title}
+              </span>
+            )}
             <div>
               <button
                 className='btn-play'
@@ -65,26 +81,18 @@ const SearchResults = ({ results }) => {
     <>
       <div className='flex-container-tracks'>
         <section className='results-section'>
-          <button
-            className='btn-collapse'
-            onClick={() => setShowResults(!showResults)}
-          >
-            &#8644;
-          </button>
           {showResults && (
             <>
               <h2 className='track-results-header'>Preview and Add Tracks</h2>
               <ul className='track-results-list'>{titles}</ul>
             </>
           )}
-          {windowWidth <= 768 && (
-            <MetaInfo addedTracks={addedTracks} deleteTrack={deleteTrack} />
-          )}
         </section>
-        {windowWidth >= 768 && (
-          <MetaInfo addedTracks={addedTracks} deleteTrack={deleteTrack} />
-        )}
       </div>
+      {showMetaInfo && (
+        <MetaInfo addedTracks={addedTracks} deleteTrack={deleteTrack} />
+      )}
+      <BottomNav search={goToSearch} data={goToData} />
     </>
   );
 };

@@ -5,7 +5,6 @@ import Track from "./Track";
 
 const MetaInfo = ({ addedTracks, deleteTrack }) => {
   const [showMetaInfo, setShowMetaInfo] = useState(false);
-  const [showTable, setShowTable] = useState(true);
 
   const tracks = addedTracks.map((track) => {
     return (
@@ -29,35 +28,24 @@ const MetaInfo = ({ addedTracks, deleteTrack }) => {
     <>
       {showMetaInfo && (
         <section>
-          <button
-            className='btn-collapse'
-            onClick={() => setShowTable(!showTable)}
-          >
-            &#8644;
-          </button>
-          {showTable && (
-            <>
-              <h2 className='meta-info-header'>Meta Info</h2>
-              <table className='table'>
-                <thead>
-                  {/* <button className='btn-sort' onClick={() => tracks.sort()}>
-                      Sort
-                    </button> */}
-                  <tr>
-                    <th></th>
-                    <th>{"Artist(s)"}</th>
-                    <th>Title</th>
-                    <th>Duration</th>
-                    <th>BPM</th>
-                    <th>Key</th>
-                    <th>Energy</th>
-                    <th>Danceability</th>
-                  </tr>
-                  {tracks}
-                </thead>
-              </table>
-            </>
-          )}
+          <>
+            <h2 className='meta-info-header'>Meta Info</h2>
+            <table className='table'>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>{"Artist(s)"}</th>
+                  <th>Title</th>
+                  <th>Duration</th>
+                  <th>BPM</th>
+                  <th>Key</th>
+                  <th>Energy</th>
+                  <th>Danceability</th>
+                </tr>
+                {tracks}
+              </thead>
+            </table>
+          </>
         </section>
       )}
     </>
