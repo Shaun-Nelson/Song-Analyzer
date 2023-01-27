@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MetaInfo from "./MetaInfo";
 import BottomNav from "./BottomNav";
 
-const SearchResults = ({ results }) => {
+const SearchResults = ({ results, setResults }) => {
   const [addedTracks, setAddedTracks] = useState([]);
   const [showResults, setShowResults] = useState(true);
   const [showMetaInfo, setShowMetaInfo] = useState(false);
+  const [nextResults, setNextResults] = useState(results[0].next);
 
   let audio = new Audio();
 
@@ -23,6 +24,27 @@ const SearchResults = ({ results }) => {
   const goToData = () => {
     setShowResults(false);
     setShowMetaInfo(true);
+  };
+
+  const getNext = async () => {
+    if (nextResults) {
+      await fetch("/search", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Methods": "POST",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+        body: JSON.stringify({ track: nextResults }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setResults(data);
+          setNextResults(data[0].next);
+        });
+    }
   };
 
   const titles = results.map((track) => {
@@ -84,6 +106,9 @@ const SearchResults = ({ results }) => {
           {showResults && (
             <>
               <h2 className='track-results-header'>Preview and Add Tracks</h2>
+              <button className='btn-next' onClick={getNext}>
+                Next 20
+              </button>
               <ul className='track-results-list'>{titles}</ul>
             </>
           )}

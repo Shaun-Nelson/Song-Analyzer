@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import SearchResults from "./SearchResults";
 
-//TODO get next 20 results w/ btn
+//TODO
+//     change inputs to select menu
 
 const Searchbar = () => {
   const [search, setSearch] = useState("");
@@ -87,7 +88,7 @@ const Searchbar = () => {
           <input className='btn-submit' value='Search' type='submit'></input>
         </form>
       </div>
-      {results && <SearchResults results={results} />}
+      {results && <SearchResults results={results} setResults={setResults} />}
     </>
   );
 };

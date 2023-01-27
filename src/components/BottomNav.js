@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+//TODO Nav doesn't obstruct search results
+//     Add symbols for labels
+
 const BottomNav = ({ search, data }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -17,7 +20,7 @@ const BottomNav = ({ search, data }) => {
         Search
       </button>
       <button className='btn-nav-data' onClick={data}>
-        {portrait ? "Data" : "Data/Analysis"}
+        {window.innerHeight > windowWidth ? "Data" : "Data/Analysis"}
       </button>
     </div>
   );

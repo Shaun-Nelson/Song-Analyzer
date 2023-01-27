@@ -226,6 +226,26 @@ td {
   background-color: rgb(48, 111, 219);
 }
 
+.btn-next {
+  display: inline-block;
+  padding: 0.2em;
+  margin:0.5em;
+  border-radius: 25%;
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.btn-next:hover {
+  border: 1px solid rgb(48, 111, 219);
+  cursor: pointer;
+}
+
+.btn-next:active {
+  background-color: rgb(48, 111, 219);
+  cursor: pointer;
+}
+
 /* SEARCHBAR */
 
 .search-label {
