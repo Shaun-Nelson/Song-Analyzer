@@ -40,7 +40,6 @@ const Searchbar = () => {
                 .then((data) => {
                   setResults(data);
                   setNext(data[0].next);
-                  console.log(next);
                   setSearch("");
                 });
             }

@@ -19,9 +19,8 @@ const MetaInfo = ({ addedTracks, deleteTrack }) => {
   });
 
   useEffect(
-    () =>
-      addedTracks.length > 0 ? setShowMetaInfo(true) : setShowMetaInfo(false),
-    [addedTracks]
+    () => (tracks.length > 0 ? setShowMetaInfo(true) : setShowMetaInfo(false)),
+    [tracks]
   );
 
   return (
@@ -42,8 +41,8 @@ const MetaInfo = ({ addedTracks, deleteTrack }) => {
                   <th>Energy</th>
                   <th>Danceability</th>
                 </tr>
-                {tracks}
               </thead>
+              <tbody>{tracks}</tbody>
             </table>
           </>
         </section>

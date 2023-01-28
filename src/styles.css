@@ -28,12 +28,17 @@ section {
 
 table {
   table-layout: fixed;
-  width: 100%;
+  width: auto;
   text-align: center;
 }
 
 td {
   font-weight: normal;
+  padding:0.5em;
+}
+
+th {
+  cursor: pointer;
 }
 
 /* CONTAINERS */
@@ -58,7 +63,6 @@ td {
 
 .flex-container-tracks {
   display: flex;
-  width: 100%;
 }
 
 .flex-container-nav {
@@ -113,7 +117,6 @@ td {
   display: inline-block;
   padding: 0.2em;
   border-radius: 25%;
-  margin-left: 2em;
   background-color: white;
   border: 1px solid black;
   cursor: pointer;
@@ -195,6 +198,7 @@ td {
   padding: 1em;
   background-color: white;
   border: 1px solid black;
+  border-right: 0;
   cursor: pointer;
 }
 
@@ -345,5 +349,12 @@ td {
   .meta-info-list {
     padding: 0;
     margin: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body{
+      background-color: rgba(0, 0, 0, 0.4);
+      color:rgba(255, 255, 255, 0.4);
+    }
   }
 }

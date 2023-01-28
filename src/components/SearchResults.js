@@ -55,28 +55,15 @@ const SearchResults = ({ results, setResults, next, setNext }) => {
   // };
 
   const titles = results.map((track) => {
+    let artists = [];
+    track.artists.forEach((artist) => artists.push(artist.name));
+    const artistNames = artists.join(", ");
+
     return (
       <React.Fragment key={track.id}>
-        <li key={track.id}>
-          <div className='flex-container-tracks-sb'>
-            {window.innerHeight > windowWidth ? (
-              <span className='artist-and-title'>
-                {track.artists.length > 1
-                  ? `${track.artists[0].name}  ft... - `
-                  : `${track.artists[0].name}  - `}
-                {track.title.length > 14
-                  ? track.title.slice(0, 14) + "..."
-                  : track.title}
-              </span>
-            ) : (
-              <span className='artist-and-title'>
-                {track.artists.length > 1
-                  ? `${track.artists[0].name}  ft... - `
-                  : `${track.artists[0].name}  - `}
-                {track.title.slice(0, 50) + "..."}
-              </span>
-            )}
-            <div>
+        <tr key={track.id}>
+          <td>
+            <div className='flex-container-tracks'>
               <button
                 className='btn-play'
                 onClick={() => {
@@ -88,7 +75,6 @@ const SearchResults = ({ results, setResults, next, setNext }) => {
               >
                 {">||"}
               </button>
-
               <button
                 className='btn-add-track'
                 onClick={() => {
@@ -100,8 +86,10 @@ const SearchResults = ({ results, setResults, next, setNext }) => {
                 +
               </button>
             </div>
-          </div>
-        </li>
+          </td>
+          <td>{artistNames}</td>
+          <td>{track.title}</td>
+        </tr>
       </React.Fragment>
     );
   });
@@ -116,7 +104,9 @@ const SearchResults = ({ results, setResults, next, setNext }) => {
               {/* <button className='btn-next' onClick={getNext}>
                 Next 20
               </button> */}
-              <ul className='track-results-list'>{titles}</ul>
+              <table>
+                <tbody>{titles}</tbody>
+              </table>
             </>
           )}
         </section>
