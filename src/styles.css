@@ -351,13 +351,12 @@ th {
 
   @media (prefers-color-scheme: dark) {
     body{
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(0, 0, 0, 0.1);
       color:rgba(255, 255, 255, 0.7);
     }
   }
 
     .btn-submit {
-      font-size: 32px;
       border-radius: 0px 10px 10px 0px;
       border: 1px solid rgba(0, 0, 0, 0.4);
       padding: 0.2em;
@@ -435,28 +434,6 @@ th {
       cursor: pointer;
     }
   
-    .btn-collapse {
-      display: inline-block;
-      padding: 0.2em;
-      border-radius: 25%;
-      margin-left: 1em;
-      margin-top: 1em;
-      color: rgba(255, 255, 255, 0.4);
-      background-color: rgb(48, 111, 219);
-      border: 1px solid black;
-      cursor: pointer;
-    }
-  
-    .btn-collapse:hover {
-      border: 1px solid white;
-      cursor: pointer;
-    }
-  
-    .btn-collapse:active {
-      background-color: white;
-      cursor: pointer;
-    }
-  
     .btn-nav-search {
       position: fixed;
       bottom: 0;
@@ -486,7 +463,8 @@ th {
       width: 50%;
       display: inline-block;
       padding: 1em;
-      background-color: white;
+      color: rgba(255, 255, 255, 0.4);
+      background-color: rgb(48, 111, 219);
       border: 1px solid black;
       cursor: pointer;
     }
