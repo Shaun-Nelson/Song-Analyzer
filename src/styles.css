@@ -23,7 +23,7 @@ ul {
 }
 
 section {
-  width: auto;
+  width: 100%;
 }
 
 table {
@@ -291,7 +291,7 @@ td {
 }
 
 .artist-and-title {
-  padding:1em;
+  padding:1em 0 1em 1em;
 }
 
 /* SECOND SECTION */

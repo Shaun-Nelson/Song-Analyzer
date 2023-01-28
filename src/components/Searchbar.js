@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import SearchResults from "./SearchResults";
 
-//TODO
-//     change inputs to select menu
-
 const Searchbar = () => {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState(null);
+  const [next, setNext] = useState("");
 
   return (
     <>
       <div className='flex-container'>
         <form
-          className='search'
+          id='search'
           onSubmit={async (e) => {
             e.preventDefault();
 
@@ -41,6 +39,8 @@ const Searchbar = () => {
                 .then((res) => res.json())
                 .then((data) => {
                   setResults(data);
+                  setNext(data[0].next);
+                  console.log(next);
                   setSearch("");
                 });
             }
@@ -77,18 +77,27 @@ const Searchbar = () => {
           <label htmlFor='btn-genre' className='search-label'>
             By Genre
           </label>
-          <input
-            className='searchbar'
-            id='searchbar'
-            type='text'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder='Search by Track, Artist, or Genre.'
-          ></input>
-          <input className='btn-submit' value='Search' type='submit'></input>
+          <div>
+            <input
+              className='searchbar'
+              id='searchbar'
+              type='text'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder='Search by Track, Artist, or Genre.'
+            ></input>
+            <input className='btn-submit' value='Search' type='submit'></input>
+          </div>
         </form>
       </div>
-      {results && <SearchResults results={results} setResults={setResults} />}
+      {results && (
+        <SearchResults
+          results={results}
+          setResults={setResults}
+          next={next}
+          setNext={setNext}
+        />
+      )}
     </>
   );
 };
