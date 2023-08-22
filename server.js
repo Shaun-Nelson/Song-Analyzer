@@ -10,7 +10,6 @@ const client_secret = process.env.CLIENT_SECRET;
 let spotifyApi = new SpotifyWebApi({
   clientId: client_id,
   clientSecret: client_secret,
-  redirectUri: process.env.REDIRECT_URI,
 });
 
 const app = express();
@@ -19,29 +18,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.post("/search", async (req, res) => {
-  //Retrieve an access token.
-  if (!spotifyApi.getAccessToken()) {
-    await spotifyApi.clientCredentialsGrant().then(
-      function (data) {
-        console.log("The access token expires in " + data.body["expires_in"]);
-        console.log("The access token is " + data.body["access_token"]);
+  try {
+    //Retrieve an access token.
+    if (!spotifyApi.getAccessToken()) {
+      await spotifyApi.clientCredentialsGrant().then(
+        function (data) {
+          console.log("The access token expires in " + data.body["expires_in"]);
+          console.log("The access token is " + data.body["access_token"]);
 
-        // Save the access token so that it's used in future calls
-        spotifyApi.setAccessToken(data.body["access_token"]);
-        spotifyApi.setRefreshToken(data.body["refresh_token"]);
-      },
-      function (err) {
-        console.log(
-          "Something went wrong when retrieving an access token",
-          err
-        );
-      }
-    );
-  }
+          // Save the access token so that it's used in future calls
+          spotifyApi.setAccessToken(data.body["access_token"]);
+          spotifyApi.setRefreshToken(data.body["refresh_token"]);
+        },
+        function (err) {
+          console.log(
+            "Something went wrong when retrieving an access token",
+            err
+          );
+        }
+      );
+    }
 
-  let apiTrackData = [];
-  await spotifyApi.searchTracks(req.body.track).then(
-    (data) => {
+    let apiTrackData = [];
+    await spotifyApi.searchTracks(req.body.track).then((data) => {
       if (data.body.tracks.items.length !== 0) {
         let tracks = data.body.tracks.items;
         let next = data.body.tracks.next ? data.body.tracks.next : "";
@@ -55,36 +54,37 @@ app.post("/search", async (req, res) => {
           trackObject["next"] = next;
           apiTrackData.push(trackObject);
         });
-        res.send(JSON.stringify(apiTrackData));
+        res.status(200).json(apiTrackData);
       }
-    },
-    (err) => console.log(err)
-  );
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.post("/analysis", async (req, res) => {
-  if (!spotifyApi.getAccessToken()) {
-    //Retrieve an access token.
-    await spotifyApi.clientCredentialsGrant().then(
-      function (data) {
-        console.log("The access token expires in " + data.body["expires_in"]);
-        console.log("The access token is " + data.body["access_token"]);
+  try {
+    if (!spotifyApi.getAccessToken()) {
+      //Retrieve an access token.
+      await spotifyApi.clientCredentialsGrant().then(
+        function (data) {
+          console.log("The access token expires in " + data.body["expires_in"]);
+          console.log("The access token is " + data.body["access_token"]);
 
-        // Save the access token so that it's used in future calls
-        spotifyApi.setAccessToken(data.body["access_token"]);
-        spotifyApi.setRefreshToken(data.body["refresh_token"]);
-      },
-      function (err) {
-        console.log(
-          "Something went wrong when retrieving an access token",
-          err
-        );
-      }
-    );
-  }
+          // Save the access token so that it's used in future calls
+          spotifyApi.setAccessToken(data.body["access_token"]);
+          spotifyApi.setRefreshToken(data.body["refresh_token"]);
+        },
+        function (err) {
+          console.log(
+            "Something went wrong when retrieving an access token",
+            err
+          );
+        }
+      );
+    }
 
-  await spotifyApi.getAudioFeaturesForTrack(req.body.track).then(
-    (data) => {
+    await spotifyApi.getAudioFeaturesForTrack(req.body.track).then((data) => {
       let trackAnalysisObject = {};
       trackAnalysisObject["danceability"] = data.body.danceability;
       trackAnalysisObject["energy"] = data.body.energy;
@@ -92,10 +92,11 @@ app.post("/analysis", async (req, res) => {
       trackAnalysisObject["bpm"] = data.body.tempo;
       trackAnalysisObject["duration_ms"] = data.body.duration_ms;
 
-      res.send(JSON.stringify(trackAnalysisObject));
-    },
-    (err) => console.log(err)
-  );
+      res.status(200).json(trackAnalysisObject);
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 if (process.env.NODE_ENV === "production") {
