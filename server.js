@@ -10,96 +10,106 @@ const client_secret = process.env.CLIENT_SECRET;
 let spotifyApi = new SpotifyWebApi({
   clientId: client_id,
   clientSecret: client_secret,
+  redirectUri: process.env.REDIRECT_URI,
 });
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, "./build")));
-
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./build/index.html"), (err) =>
+  res.sendFile(path.join(__dirname, "./public/index.html"), (err) =>
     res.status(500).send(err)
   );
 });
 
-app.post("/search", (req, res) => {
+app.post("/search", async (req, res) => {
   //Retrieve an access token.
-  spotifyApi.clientCredentialsGrant().then(
-    function (data) {
-      console.log("The access token expires in " + data.body["expires_in"]);
-      console.log("The access token is " + data.body["access_token"]);
+  if (!spotifyApi.getAccessToken()) {
+    await spotifyApi.clientCredentialsGrant().then(
+      function (data) {
+        console.log("The access token expires in " + data.body["expires_in"]);
+        console.log("The access token is " + data.body["access_token"]);
 
-      // Save the access token so that it's used in future calls
-      spotifyApi.setAccessToken(data.body["access_token"]);
-    },
-    function (err) {
-      console.log("Something went wrong when retrieving an access token", err);
-    }
-  );
+        // Save the access token so that it's used in future calls
+        spotifyApi.setAccessToken(data.body["access_token"]);
+      },
+      function (err) {
+        console.log(
+          "Something went wrong when retrieving an access token",
+          err
+        );
+      }
+    );
+  }
 
   let apiTrackData = [];
-  setTimeout(
-    () =>
-      spotifyApi.searchTracks(req.body.track).then(
-        (data) => {
-          if (data.body.tracks.items.length !== 0) {
-            let tracks = data.body.tracks.items;
-            let next = data.body.tracks.next ? data.body.tracks.next : "";
-            tracks.forEach((track) => {
-              let trackObject = {};
-              trackObject["artists"] = track.artists;
-              trackObject["href"] = track.href;
-              trackObject["id"] = track.id;
-              trackObject["title"] = track.name;
-              trackObject["preview"] = track.preview_url;
-              trackObject["next"] = next;
-              apiTrackData.push(trackObject);
-            });
-            res.send(JSON.stringify(apiTrackData));
-          }
-        },
-        (err) => console.log(err)
-      ),
-    200
-  );
-});
-
-app.post("/analysis", (req, res) => {
-  //Retrieve an access token.
-  spotifyApi.clientCredentialsGrant().then(
-    function (data) {
-      console.log("The access token expires in " + data.body["expires_in"]);
-      console.log("The access token is " + data.body["access_token"]);
-
-      // Save the access token so that it's used in future calls
-      spotifyApi.setAccessToken(data.body["access_token"]);
+  await spotifyApi.searchTracks(req.body.track).then(
+    (data) => {
+      if (data.body.tracks.items.length !== 0) {
+        let tracks = data.body.tracks.items;
+        let next = data.body.tracks.next ? data.body.tracks.next : "";
+        tracks.forEach((track) => {
+          let trackObject = {};
+          trackObject["artists"] = track.artists;
+          trackObject["href"] = track.href;
+          trackObject["id"] = track.id;
+          trackObject["title"] = track.name;
+          trackObject["preview"] = track.preview_url;
+          trackObject["next"] = next;
+          apiTrackData.push(trackObject);
+        });
+        res.send(JSON.stringify(apiTrackData));
+      }
     },
-    function (err) {
-      console.log("Something went wrong when retrieving an access token", err);
-    }
-  );
-
-  setTimeout(
-    () =>
-      spotifyApi.getAudioFeaturesForTrack(req.body.track).then(
-        (data) => {
-          let trackAnalysisObject = {};
-          trackAnalysisObject["danceability"] = data.body.danceability;
-          trackAnalysisObject["energy"] = data.body.energy;
-          trackAnalysisObject["key"] = data.body.key;
-          trackAnalysisObject["bpm"] = data.body.tempo;
-          trackAnalysisObject["duration_ms"] = data.body.duration_ms;
-
-          res.send(JSON.stringify(trackAnalysisObject));
-        },
-        (err) => console.log(err)
-      ),
-    200
+    (err) => console.log(err)
   );
 });
 
-let port = process.env.PORT || 4000;
-app.listen(port, () => console.log(`listening on port ${port}`));
+app.post("/analysis", async (req, res) => {
+  if (!spotifyApi.getAccessToken()) {
+    //Retrieve an access token.
+    await spotifyApi.clientCredentialsGrant().then(
+      function (data) {
+        console.log("The access token expires in " + data.body["expires_in"]);
+        console.log("The access token is " + data.body["access_token"]);
+
+        // Save the access token so that it's used in future calls
+        spotifyApi.setAccessToken(data.body["access_token"]);
+        spotifyApi.setRefreshToken(data.body["refresh_token"]);
+      },
+      function (err) {
+        console.log(
+          "Something went wrong when retrieving an access token",
+          err
+        );
+      }
+    );
+  }
+
+  await spotifyApi.getAudioFeaturesForTrack(req.body.track).then(
+    (data) => {
+      let trackAnalysisObject = {};
+      trackAnalysisObject["danceability"] = data.body.danceability;
+      trackAnalysisObject["energy"] = data.body.energy;
+      trackAnalysisObject["key"] = data.body.key;
+      trackAnalysisObject["bpm"] = data.body.tempo;
+      trackAnalysisObject["duration_ms"] = data.body.duration_ms;
+
+      res.send(JSON.stringify(trackAnalysisObject));
+    },
+    (err) => console.log(err)
+  );
+});
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "./build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./build/index.html"));
+  });
+}
+
+let PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`listening on PORT: ${PORT}`));

@@ -1,1 +1,8 @@
+<<<<<<< HEAD
 .env
+=======
+node_modules
+.vscode
+.DS_Store
+.env
+>>>>>>> 53d8a2c5 (Various server-side bug fixes)
