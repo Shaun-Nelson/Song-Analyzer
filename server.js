@@ -18,12 +18,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"), (err) =>
-    res.status(500).send(err)
-  );
-});
-
 app.post("/search", async (req, res) => {
   //Retrieve an access token.
   if (!spotifyApi.getAccessToken()) {
@@ -34,6 +28,7 @@ app.post("/search", async (req, res) => {
 
         // Save the access token so that it's used in future calls
         spotifyApi.setAccessToken(data.body["access_token"]);
+        spotifyApi.setRefreshToken(data.body["refresh_token"]);
       },
       function (err) {
         console.log(
