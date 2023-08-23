@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { PiPlayPause } from "react-icons/pi";
 import MetaInfo from "./MetaInfo";
 import BottomNav from "./BottomNav";
 
@@ -74,7 +75,7 @@ const SearchResults = ({ results, setResults, next, setNext }) => {
                     audio.paused ? audio.play() : audio.pause();
                   }}
                 >
-                  {">||"}
+                  <PiPlayPause />
                 </button>
               )}
               <button
