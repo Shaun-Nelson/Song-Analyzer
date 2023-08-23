@@ -64,17 +64,19 @@ const SearchResults = ({ results, setResults, next, setNext }) => {
         <tr key={track.id}>
           <td>
             <div className='flex-container-tracks'>
-              <button
-                className='btn-play'
-                onClick={() => {
-                  if (audio.src !== track.preview) {
-                    audio.src = track.preview;
-                  }
-                  audio.paused ? audio.play() : audio.pause();
-                }}
-              >
-                {">||"}
-              </button>
+              {track.preview && (
+                <button
+                  className='btn-play'
+                  onClick={() => {
+                    if (audio.src !== track.preview) {
+                      audio.src = track.preview;
+                    }
+                    audio.paused ? audio.play() : audio.pause();
+                  }}
+                >
+                  {">||"}
+                </button>
+              )}
               <button
                 className='btn-add-track'
                 onClick={() => {

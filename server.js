@@ -1,21 +1,19 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const path = require("path");
 const SpotifyWebApi = require("spotify-web-api-node");
 require("dotenv").config();
 
-const client_id = process.env.CLIENT_ID;
-const client_secret = process.env.CLIENT_SECRET;
-
-let spotifyApi = new SpotifyWebApi({
-  clientId: client_id,
-  clientSecret: client_secret,
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
 });
+
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.post("/search", async (req, res) => {
   try {
@@ -107,5 +105,4 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-let PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`listening on PORT: ${PORT}`));
